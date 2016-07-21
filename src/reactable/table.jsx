@@ -243,7 +243,7 @@ export class Table extends React.Component {
         }
 
         if (currentSort) {
-            this.setState({currentSort: this.getCurrentSort(curentSort)});
+            this.setState({currentSort: this.getCurrentSort(currentSort)});
         }
     }
 
