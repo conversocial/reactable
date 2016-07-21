@@ -21,10 +21,23 @@ window.ReactDOM["default"] = window.ReactDOM;
         columns: true,
         sortable: true,
         filterable: true,
+        filtering: true,
+        onFilter: true,
+        filterPlaceholder: true,
         filterClassName: true,
+        currentFilter: true,
+        sort: true,
         sortBy: true,
+        sortableColumns: true,
+        onSort: true,
         defaultSort: true,
+        defaultSortDescending: true,
         itemsPerPage: true,
+        filterBy: true,
+        hideFilterInput: true,
+        noDataText: true,
+        currentPage: true,
+        pageButtonLimit: true,
         childNode: true,
         data: true,
         children: true
@@ -1241,10 +1254,16 @@ window.ReactDOM["default"] = window.ReactDOM;
             }
         }, {
             key: 'updateCurrentSort',
-            value: function updateCurrentSort(sortBy) {
+            value: function updateCurrentSort(sortBy, defaultSort) {
+                var currentSort = null;
                 if (sortBy !== false && sortBy.column !== this.state.currentSort.column && sortBy.direction !== this.state.currentSort.direction) {
+                    currentSort = sortBy;
+                } else if (sortBy == false && defaultSort != undefined) {
+                    currentSort = defaultSort;
+                }
 
-                    this.setState({ currentSort: this.getCurrentSort(sortBy) });
+                if (currentSort) {
+                    this.setState({ currentSort: this.getCurrentSort(currentSort) });
                 }
             }
         }, {
@@ -1266,7 +1285,7 @@ window.ReactDOM["default"] = window.ReactDOM;
             value: function componentWillReceiveProps(nextProps) {
                 this.initialize(nextProps);
                 this.updateCurrentPage(nextProps.currentPage);
-                this.updateCurrentSort(nextProps.sortBy);
+                this.updateCurrentSort(nextProps.sortBy, nextProps.defaultSort);
                 this.sortByCurrentSort();
                 this.filterBy(nextProps.filterBy);
             }
